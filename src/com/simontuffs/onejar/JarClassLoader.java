@@ -660,6 +660,12 @@ public class JarClassLoader extends ClassLoader implements IProperties {
                 // continue...
             }
         }
+        
+        try {
+          return DynamicClassLoader.loadClass(name);
+        } catch (ClassNotFoundException dcnfe) {
+        
+        }
 
         // Make sure not to load duplicate classes.
         cls = findLoadedClass(name);
