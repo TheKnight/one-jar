@@ -62,6 +62,7 @@ public class Boot {
     public final static String ONE_JAR_DEFAULT_MAIN_JAR = "One-Jar-Default-Main-Jar";
     public final static String ONE_JAR_MAIN_ARGS = "One-Jar-Main-Args";
     public final static String ONE_JAR_URL_FACTORY = "One-Jar-URL-Factory";
+    public final static String ONE_JAR_ALLOW_CLASSLOADERS = "One-Jar-Allow-Classloaders";
 	
 	public final static String MANIFEST = "META-INF/MANIFEST.MF";
 	public final static String MAIN_JAR = "main/main.jar";
@@ -326,6 +327,17 @@ public class Boot {
         if (mainClass == null && !loader.isExpanded()) 
             throw new Exception(getMyJarName() + " main class was not found (fix: add main/main.jar with a Main-Class manifest attribute, or specify -D" + P_MAIN_CLASS + "=<your.class.name>), or use " + ONE_JAR_MAIN_CLASS + " in the manifest");
 
+        // If ALLOW_CLASSLOADERS is set, there are a set of classloaders which should be
+        // allowed to modify the context classloader of the current thread without resetting it
+        // back to the jarclassloader
+        String allowedClassLoaders = attributes.getValue(ONE_JAR_ALLOW_CLASSLOADERS);
+        if (allowedClassLoaders != null) {
+          String allowedClassLoadersSplit[] = allowedClassLoaders.split(",");
+          for (int i=0; i<allowedClassLoadersSplit.length; i++) {
+            loader.allowClassLoader(allowedClassLoadersSplit[i]);
+          }
+        }            
+            
         if (mainClass != null) {
         	// Guard against the main.jar pointing back to this
         	// class, and causing an infinite recursion.

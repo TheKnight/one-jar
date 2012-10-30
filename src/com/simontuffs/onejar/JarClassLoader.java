@@ -91,6 +91,8 @@ public class JarClassLoader extends ClassLoader implements IProperties {
     protected String name;
     protected boolean noExpand, expanded;
     protected ClassLoader externalClassLoader;
+
+    protected HashMap allowClassLoaders = new HashMap();
     
     static {
         // Add our 'onejar:' protocol handler, but leave open the 
@@ -622,14 +624,28 @@ public class JarClassLoader extends ClassLoader implements IProperties {
 	 * 
 	 */
 	public Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    ClassLoader currentThreadClassLoader = Thread.currentThread().getContextClassLoader();
+    
+    if (!currentThreadClassLoader.equals(JarClassLoader.this)) {
+      String contextClassLoaderId = currentThreadClassLoader.toString();
+      contextClassLoaderId = contextClassLoaderId.substring(0, contextClassLoaderId.indexOf("@"));
+      // If not allowed, reset to the JarClassLoader
+      if (!allowClassLoaders.containsKey(contextClassLoaderId)) {  
         // Set the context classloader in case any classloaders delegate to it.
         // Otherwise it would default to the sun.misc.Launcher$AppClassLoader which
         // is used to launch the jar application, and attempts to load through
         // it would fail if that code is encapsulated inside the one-jar.
         Thread.currentThread().setContextClassLoader(this);
-	    return super.loadClass(name, resolve);
+      }
+    }
+    
+	  return super.loadClass(name, resolve);
 	}
-	
+  
+  public void allowClassLoader(String classLoaderSig) {
+    allowClassLoaders.put(classLoaderSig, classLoaderSig);
+  }	
+
     /**
      * Locate the named class in a jar-file, contained inside the
      * jar file which was used to load <u>this</u> class.
