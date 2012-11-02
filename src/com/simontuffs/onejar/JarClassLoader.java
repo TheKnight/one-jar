@@ -618,12 +618,15 @@ public class JarClassLoader extends ClassLoader implements IProperties {
         }
     }
     
+
+    
+    
 	/**
 	 * Override to ensure that this classloader is the thread context classloader
 	 * when used to load a class.  Avoids subtle, nasty problems.
 	 * 
 	 */
-	public Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+	public Class loadClass(String name, boolean resolve) throws ClassNotFoundException {  
     ClassLoader currentThreadClassLoader = Thread.currentThread().getContextClassLoader();
     
     if (!currentThreadClassLoader.equals(JarClassLoader.this)) {
@@ -638,8 +641,8 @@ public class JarClassLoader extends ClassLoader implements IProperties {
         Thread.currentThread().setContextClassLoader(this);
       }
     }
-    
-	  return super.loadClass(name, resolve);
+
+    return super.loadClass(name, resolve);    
 	}
   
   public void allowClassLoader(String classLoaderSig) {
@@ -726,12 +729,6 @@ public class JarClassLoader extends ClassLoader implements IProperties {
             return defineClass(name, bytes, pd);
         }
         VERBOSE(name + " not found");
-
-        try {
-          return DynamicClassLoader.loadClass(name);
-        } catch (ClassNotFoundException dcnfe) {
-        
-        }
         
         throw new ClassNotFoundException(name);
         

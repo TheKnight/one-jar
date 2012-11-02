@@ -88,7 +88,7 @@
 
 	<!-- compile the source -->
 	<target name="compile" depends="mkdirs">
-        <javac destdir="${classes.dir}/ant" deprecation="off" optimize="${optimize}" debug="${debug}">
+        <javac destdir="${classes.dir}/ant" deprecation="off" optimize="${optimize}" debug="${debug}" includeantruntime="false">
             <src path="${test.dir}" />
             <include name="**/Testable.java"/>
             <include name="**/Invoker.java"/>
@@ -96,24 +96,24 @@
                 <path location="${classes.dir}/src" />
             </classpath>
         </javac>
-		<javac destdir="${classes.dir}/src" deprecation="off" optimize="${optimize}" debug="${debug}">
+		<javac destdir="${classes.dir}/src" deprecation="off" optimize="${optimize}" debug="${debug}" includeantruntime="false">
 			<src path="${src.dir}" />
 		</javac>
         <echo file="${classes.dir}/src/.version">${one-jar.version}${one-jar.info}</echo>
-		<javac destdir="${classes.dir}/example" deprecation="off" optimize="${optimize}" debug="${debug}">
+		<javac destdir="${classes.dir}/example" deprecation="off" optimize="${optimize}" debug="${debug}" includeantruntime="false">
 			<src path="${example.dir}" />
 			<classpath>
 				<path location="${classes.dir}/src" />
 				<path location="${classes.dir}/ant" />
 			</classpath>
 		</javac>
-		<javac destdir="${classes.dir}/ant" deprecation="off" optimize="${optimize}" debug="${debug}">
+		<javac destdir="${classes.dir}/ant" deprecation="off" optimize="${optimize}" debug="${debug}" includeantruntime="false">
 			<src path="${ant.dir}" />
 			<classpath>
 				<path location="${classes.dir}/src" />
 			</classpath>
 		</javac>
-		<javac destdir="${classes.dir}/services" deprecation="off" optimize="${optimize}" debug="${debug}">
+		<javac destdir="${classes.dir}/services" deprecation="off" optimize="${optimize}" debug="${debug}" includeantruntime="false">
 			<src path="${services.dir}" />
 			<classpath>
 				<path location="${classes.dir}/example" />
@@ -499,7 +499,7 @@
 		<fail unless="one-jar.ant.jar.available" message="Run the build.ant.jar task first"/>
 		<mkdir dir="${classes.dir}/test" />
 		<mkdir dir="${test.results.dir}" />
-		<javac destdir="${classes.dir}/test" debug="on" deprecation="off" optimize="off">
+		<javac destdir="${classes.dir}/test" debug="on" deprecation="off" optimize="off"  includeantruntime="false">
 			<src path="${test.dir}" />
 			<classpath>
 				<fileset file="${basedir}/dist/one-jar-example-${one-jar.version}.jar" />
