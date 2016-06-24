@@ -2,7 +2,7 @@
 	
 	<property name="top.dir" location="../.."/>
 	<property name="build.dir" location="${top.dir}/build"/>
-	<property name="classes.dir" location="${build.dir}/eclipse/ant"/>
+	<property name="classes.dir" location="${build.dir}/ant/ant"/>
 	<property name="example.dir" location="${top.dir}/example"/>
 	<property name="jar.dir" location="${build.dir}/jars"/>
     <property name="one-jar.version" value="0.98"/>   
