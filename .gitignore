@@ -4,6 +4,8 @@
 
 # project build files
 dist
+bin
+build
 
 # IntelliJ project files
 .idea
