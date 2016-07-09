@@ -393,7 +393,7 @@ public class Boot {
             ProtectionDomain pDomain = cls.getProtectionDomain();
             CodeSource cSource = pDomain.getCodeSource();
             myJarPath = cSource.getLocation().toString(); 
-            System.out.println("myJarPath=" + myJarPath);
+            INFO("myJarPath=" + myJarPath);
             return myJarPath;
         }
         if (myJarPath == null) {

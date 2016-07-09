@@ -119,7 +119,7 @@ public class JarClassLoader extends ClassLoader implements IProperties {
         } catch (MalformedURLException x) {
             url = new URL("file:" + oneJarPath);
         }
-        System.out.println("oneJarPath=" + url);
+        INFO("oneJarPath=" + url);
         this.oneJarPath = url.toString();
     }
 
